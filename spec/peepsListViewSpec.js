@@ -35,7 +35,7 @@
       }
     }]}
     var peepListView = new PeepListView(peepListDouble);
-    var expectedHTML = "<ul><li><div>Test chitter peep number 2</div></li><br><li><div>Test chitter peep number 1</div></li><br></ul>";
+    var expectedHTML = "<ul><li><div>Test chitter peep number 2</div><div>Posted by: charlotte</div></li><br><li><div>Test chitter peep number 1</div><div>Posted by: charlotte</div></li><br></ul>";
     assert.isTrue(peepListView.returnPeepHTML() === expectedHTML);
     console.log("Test for: Peep List View generates peep HTML string for multiple peeps PASSED");
   })();
