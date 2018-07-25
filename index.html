@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Chitter Social</title>
+  </head>
+  <body>
+    <div id='app'>Chitter is great</div>
+
+    <script src="src/peepModel.js"></script>
+    <script src="src/peepsListModel.js"></script>
+    <script src="src/peepsListView.js"></script>
+    <script src="src/peepsController.js"></script>
+
+    <script type="text/javascript">
+    var xhr = new XMLHttpRequest();
+    var url = "https://chitter-backend-api.herokuapp.com/peeps"
+    xhr.onreadystatechange = peepsCallback;
+    function peepsCallback() {
+      if (xhr.readystate < 4) {
+        return;
+      }
+      if (xhr.status !== 200) {
+        return;
+      }
+      var apiCall = JSON.parse(xhr.responseText);
+      executePeeps(apiCall);
+    };
+    xhr.open("GET", url, true);
+    xhr.send("");
+
+    function executePeeps(apiCall) {
+      var peepsList = new PeepList;
+      peepsList.addPeeps(apiCall);
+      var peepsController = new PeepsController(peepsList);
+      peepsController.renderHTML();
+    };
+    </script>
+  </body>
+</html>
