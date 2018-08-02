@@ -1,33 +1,22 @@
 "use strict";
 
 (function (exports) {
+  var PEEPS_URL = "https://chitter-backend-api.herokuapp.com/peeps";
 
-  function PeepsController(peepsList) {
+  function PeepsController(peepsList, _makeGetRequest = makeGetRequest) {
     this.peepsListView = new PeepListView(peepsList);
+    this._makeGetRequest = _makeGetRequest;
   };
 
   PeepsController.prototype.renderHTML = function() {
-  var element = document.getElementById('app')
-  element.innerHTML = this.peepsListView.returnPeepHTML();
+    var element = document.getElementById('app')
+    element.innerHTML = this.peepsListView.returnPeepHTML();
   };
 
   PeepsController.prototype.loadPeeps = function() {
-    var xhr = new XMLHttpRequest();
-    var url = "https://chitter-backend-api.herokuapp.com/peeps"
-    xhr.onreadystatechange = peepsCallback;
-    function peepsCallback() {
-      if (xhr.readystate < 4) {
-        return;
-      }
-      if (xhr.status !== 200) {
-        return;
-      }
-      var apiCall = JSON.parse(xhr.responseText);
-
-      executePeeps(apiCall);
-    };
-    xhr.open("GET", url, true);
-    xhr.send("");
+    this._makeGetRequest(PEEPS_URL, function(peeps) {
+      executePeeps(peeps);
+    });
   }
 
   function executePeeps(apiCall) {
